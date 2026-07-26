@@ -6,13 +6,15 @@ enum MonthlyBalanceViewStyle {
 }
 
 struct MonthlyBalanceView: View {
-    @State var style: MonthlyBalanceViewStyle
-    @State var earnings: Double
-    @State var expenses: Double
+    @State var viewData: ViewData
 
     var body: some View {
         ZStack {
-            VStack(spacing: 20) {
+            VStack(spacing: 25) {
+                if let dateSelectorViewData = viewData.dateSelectorViewData {
+                    DateSelectorView(viewData: dateSelectorViewData)
+                }
+                
                 VStack(spacing: 10) {
                     Text("Monthly Balance")
                         .font(.subheadline)
@@ -24,7 +26,7 @@ struct MonthlyBalanceView: View {
                         .foregroundStyle(amountColor)
                 }
                 
-                if style == .withDivider {
+                if viewData.style == .withDivider {
                     Rectangle()
                         .fill(Color.white.opacity(0.50))
                         .frame(height: 0.5)
@@ -35,7 +37,7 @@ struct MonthlyBalanceView: View {
     }
     
     var amount: Double {
-        earnings - expenses
+        viewData.earnings - viewData.expenses
     }
     
     var amountColor: Color {
@@ -50,5 +52,14 @@ struct MonthlyBalanceView: View {
     
     var formattedAmount: String {
         amount.formattedAmount() + " €"
+    }
+}
+
+extension MonthlyBalanceView {
+    struct ViewData {
+        var style: MonthlyBalanceViewStyle
+        var earnings: Double
+        var expenses: Double
+        var dateSelectorViewData: DateSelectorView.ViewData?
     }
 }

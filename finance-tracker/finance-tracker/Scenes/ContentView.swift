@@ -16,23 +16,31 @@ struct ContentView: View {
                 .ignoresSafeArea(.all)
             
             VStack(spacing: 10) {
-                MonthlyBalanceView(style: .withDivider,
-                                   earnings: 4000,
-                                   expenses: 3000)
+                MonthlyBalanceView(viewData: MonthlyBalanceView.ViewData(style: .withDivider,
+                                                                         earnings: 4000,
+                                                                         expenses: 3000,
+                                                                         dateSelectorViewData: getDateSelectorViewData()))
                 
-                HeaderView(style: .withButton(buttonAction: {}),
-                           title: "Spendings",
-                           subtitle: "Monthly Expenses",
-                           value: "3000 €")
+                HeaderView(viewData: HeaderView.ViewData(style: .withButton(buttonAction: {}),
+                                                         title: "Spendings",
+                                                         subtitle: "Monthly Expenses",
+                                                         value: "3000 €"))
                 
-                HeaderView(style: .withButton(buttonAction: {}),
-                           title: "Earnings",
-                           subtitle: "Monthly earnings",
-                           value: "2000 €")
+                HeaderView(viewData: HeaderView.ViewData(style: .withButton(buttonAction: {}),
+                                                         title: "Earnings",
+                                                         subtitle: "Monthly earnings",
+                                                         value: "2000 €"))
                 
                 Spacer()
             }
         }
+    }
+    
+    func getDateSelectorViewData() -> DateSelectorView.ViewData {
+        DateSelectorView.ViewData(month: "January",
+                                  isNextMonthAvailable: true,
+                                  onPreviousMonthClick: {},
+                                  onNextMonthClick: {})
     }
 }
 
