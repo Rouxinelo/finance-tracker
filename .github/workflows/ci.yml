@@ -28,7 +28,7 @@ jobs:
             -project finance-tracker.xcodeproj \
             -scheme finance-tracker \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,OS=18.5,name=iPhone 16' \
+            -destination 'platform=iOS Simulator,OS=26.5,name=iPhone 17 Pro' \
             build
             
   test:
@@ -49,7 +49,7 @@ jobs:
             -project finance-tracker.xcodeproj \
             -scheme finance-tracker \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,OS=18.5,name=iPhone 16' \
+            -destination 'platform=iOS Simulator,OS=26.5,name=iPhone 17 Pro' \
             -skip-testing:finance-trackerUITests \
             -skip-testing:finance-trackerTests/finance-trackerLaunchTests \
             test
