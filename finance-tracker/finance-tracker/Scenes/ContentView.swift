@@ -87,8 +87,9 @@ private extension ContentView {
     
     func getEntryInfoViewData() -> EntryInfoView.ViewData {
         EntryInfoView.ViewData(entryId: "",
+                               entryType: .earning,
                                name: "Francesinha",
-                               entryType: ExpenseType.eatingOut,
+                               entry: ExpenseType.eatingOut,
                                amount: 100,
                                date: "23/09/2026",
                                isRecurring: false,

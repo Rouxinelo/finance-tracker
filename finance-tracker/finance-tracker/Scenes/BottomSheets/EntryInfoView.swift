@@ -9,14 +9,14 @@ struct EntryInfoView: View {
                 Text(viewData.name)
                     .font(.system(size: 19, weight: .semibold))
                     .foregroundStyle(Color.fontWhite)
-                Text(viewData.entryType.displayName)
+                Text(viewData.entry.displayName)
                     .font(.system(size: 13))
                     .foregroundStyle(Color.fontSubtitle)
             }
 
-            Text(viewData.amount.formattedAmount())
+            Text(getSign() + viewData.amount.formattedAmount())
                 .font(.system(size: 32))
-                .foregroundStyle(Color.fontWhite)
+                .foregroundStyle(getExpenseColor())
 
             VStack(spacing: 0) {
                 detailRow(label: "Date", value: viewData.date)
@@ -57,8 +57,10 @@ struct EntryInfoView: View {
         }
         .padding(22)
     }
+}
 
-    private func detailRow(label: String, value: String) -> some View {
+private extension EntryInfoView {
+    func detailRow(label: String, value: String) -> some View {
         HStack {
             Text(label)
                 .font(.system(size: 13))
@@ -70,13 +72,32 @@ struct EntryInfoView: View {
         }
         .padding(.vertical, 11)
     }
+    
+    func getSign() -> String {
+        switch viewData.entryType {
+        case .spending:
+            return "-"
+        case .earning:
+            return "+"
+        }
+    }
+    
+    func getExpenseColor() -> Color {
+        switch viewData.entryType {
+        case .spending:
+            return Color.amountRed
+        case .earning:
+            return Color.amountGreen
+        }
+    }
 }
 
 extension EntryInfoView {
     struct ViewData {
         let entryId: String
-        let name: String
         let entryType: EntryType
+        let name: String
+        let entry: Entry
         let amount: Double
         let date: String
         let isRecurring: Bool

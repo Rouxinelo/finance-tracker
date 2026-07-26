@@ -20,7 +20,7 @@ struct MonthlyBalanceView: View {
                         .font(.subheadline)
                         .foregroundStyle(Color.fontSubtitle)
                     
-                    Text(formattedAmount)
+                    Text(amount.formattedAmount())
                         .font(.largeTitle)
                         .fontWeight(.medium)
                         .foregroundStyle(amountColor)
@@ -48,10 +48,6 @@ struct MonthlyBalanceView: View {
         } else {
             return Color.fontWhite
         }
-    }
-    
-    var formattedAmount: String {
-        amount.formattedAmount() + " €"
     }
 }
 
