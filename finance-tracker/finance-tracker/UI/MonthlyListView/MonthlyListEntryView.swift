@@ -1,11 +1,11 @@
 import SwiftUI
 
 struct MonthlyListEntryViewData: Identifiable {
-    let id = UUID()
+    let id: String
     let name: String
     let category: String
     let amount: String
-    let infoButtonAction: () -> Void
+    let infoButtonAction: (String) -> Void
 }
 
 struct MonthlyListEntryView: View {
@@ -30,7 +30,9 @@ struct MonthlyListEntryView: View {
                     .font(.system(size: 14))
                     .foregroundStyle(Color.fontWhite)
 
-                Button(action: viewData.infoButtonAction) {
+                Button(action: {
+                    viewData.infoButtonAction(viewData.id)
+                }) {
                     Image(systemName: "info.circle")
                         .font(.system(size: 16))
                         .foregroundStyle(Color.fontSubtitle)

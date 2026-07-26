@@ -9,6 +9,8 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
+    @State private var activeSheet: ActiveSheet?
+    
     var body: some View {
         ZStack {
             Color
@@ -38,8 +40,14 @@ struct ContentView: View {
                 Spacer()
             }
         }
+        .sheet(item: $activeSheet) { sheet in
+            ActiveSheetView(sheet: sheet)
+                .presentationBackground(Color.sheetBackgroundColor)
+        }
     }
-    
+}
+
+private extension ContentView {
     func getDateSelectorViewData() -> DateSelectorView.ViewData {
         DateSelectorView.ViewData(month: "January",
                                   isNextMonthAvailable: true,
@@ -49,25 +57,43 @@ struct ContentView: View {
     
     func getSpendingsListViewData() -> MonthlyListView.ViewData {
         MonthlyListView.ViewData(entries: [
-            MonthlyListEntryViewData(name: "Gym membership",
+            MonthlyListEntryViewData(id: "1",
+                                     name: "Gym membership",
                                      category: "Other",
                                      amount: "30 €",
-                                     infoButtonAction: {}),
+                                     infoButtonAction: { entryId in
+                                         activeSheet = .entryInfo(getEntryInfoViewData())
+                                     }),
             
-            MonthlyListEntryViewData(name: "Food",
+            MonthlyListEntryViewData(id: "",
+                                     name: "Food",
                                      category: "Restaurants",
                                      amount: "30 €",
-                                     infoButtonAction: {}),
+                                     infoButtonAction: { entryId in
+                                     }),
         ])
     }
     
     func getEarningsListViewData() -> MonthlyListView.ViewData {
         MonthlyListView.ViewData(entries: [
-            MonthlyListEntryViewData(name: "Coca Cola Dividends",
+            MonthlyListEntryViewData(id: "",
+                                     name: "Coca Cola Dividends",
                                      category: "Investments",
                                      amount: "10 €",
-                                     infoButtonAction: {}),
+                                     infoButtonAction: { entryId in
+                                     }),
         ])
+    }
+    
+    func getEntryInfoViewData() -> EntryInfoView.ViewData {
+        EntryInfoView.ViewData(entryId: "",
+                               name: "Francesinha",
+                               entryType: ExpenseType.eatingOut,
+                               amount: 100,
+                               date: "23/09/2026",
+                               isRecurring: false,
+                               onEditAction: { entryId in },
+                               onDeleteAction: { entryId in })
     }
 }
 
