@@ -26,10 +26,14 @@ struct ContentView: View {
                                                          subtitle: "Monthly Expenses",
                                                          value: "3000 €"))
                 
+                MonthlyListView(viewData: getSpendingsListViewData())
+                
                 HeaderView(viewData: HeaderView.ViewData(style: .withButton(buttonAction: {}),
                                                          title: "Earnings",
                                                          subtitle: "Monthly earnings",
                                                          value: "2000 €"))
+                
+                MonthlyListView(viewData: getEarningsListViewData())
                 
                 Spacer()
             }
@@ -41,6 +45,29 @@ struct ContentView: View {
                                   isNextMonthAvailable: true,
                                   onPreviousMonthClick: {},
                                   onNextMonthClick: {})
+    }
+    
+    func getSpendingsListViewData() -> MonthlyListView.ViewData {
+        MonthlyListView.ViewData(entries: [
+            MonthlyListEntryViewData(name: "Gym membership",
+                                     category: "Other",
+                                     amount: "30 €",
+                                     infoButtonAction: {}),
+            
+            MonthlyListEntryViewData(name: "Food",
+                                     category: "Restaurants",
+                                     amount: "30 €",
+                                     infoButtonAction: {}),
+        ])
+    }
+    
+    func getEarningsListViewData() -> MonthlyListView.ViewData {
+        MonthlyListView.ViewData(entries: [
+            MonthlyListEntryViewData(name: "Coca Cola Dividends",
+                                     category: "Investments",
+                                     amount: "10 €",
+                                     infoButtonAction: {}),
+        ])
     }
 }
 
