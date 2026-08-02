@@ -8,6 +8,7 @@ extension Color {
     static var fontSubtitle: Color { Color(hex: "#9aa3b5") }
     static var amountRed: Color { Color(hex: "#e24b4a") }
     static var amountGreen: Color { Color(hex: "#5dcaa5") }
+    static var loaderGreen: Color { Color(hex: "4ade80") }
     
     init(hex: String) {
         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
