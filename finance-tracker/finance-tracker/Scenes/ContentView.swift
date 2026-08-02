@@ -10,6 +10,7 @@ import SwiftData
 
 struct ContentView: View {
     @State private var activeSheet: ActiveSheet?
+    @State private var pendingSheet: ActiveSheet?
     
     var body: some View {
         ZStack {
@@ -23,14 +24,18 @@ struct ContentView: View {
                                                                          expenses: 3000,
                                                                          dateSelectorViewData: getDateSelectorViewData()))
                 
-                HeaderView(viewData: HeaderView.ViewData(style: .withButton(buttonAction: {}),
+                HeaderView(viewData: HeaderView.ViewData(style: .withButton(buttonAction: {
+                    activeSheet = .addExpense(getAddExpenseViewData())
+                }),
                                                          title: "Spendings",
                                                          subtitle: "Monthly Expenses",
                                                          value: "3000 €"))
                 
                 MonthlyListView(viewData: getSpendingsListViewData())
                 
-                HeaderView(viewData: HeaderView.ViewData(style: .withButton(buttonAction: {}),
+                HeaderView(viewData: HeaderView.ViewData(style: .withButton(buttonAction: {
+                    activeSheet = .addEarning(getAddEarningViewData())
+                }),
                                                          title: "Earnings",
                                                          subtitle: "Monthly earnings",
                                                          value: "2000 €"))
@@ -40,7 +45,12 @@ struct ContentView: View {
                 Spacer()
             }
         }
-        .sheet(item: $activeSheet) { sheet in
+        .sheet(item: $activeSheet, onDismiss: {
+            if let pendingSheet = pendingSheet {
+                self.pendingSheet = nil
+                activeSheet = pendingSheet
+            }
+        }) { sheet in
             ActiveSheetView(sheet: sheet)
                 .presentationBackground(Color.sheetBackgroundColor)
         }
@@ -86,15 +96,28 @@ private extension ContentView {
     }
     
     func getEntryInfoViewData() -> EntryInfoView.ViewData {
-        EntryInfoView.ViewData(entryId: "",
-                               entryType: .earning,
+        EntryInfoView.ViewData(entryId: UUID(),
+                               entryType: .spending,
                                name: "Francesinha",
-                               entry: ExpenseType.eatingOut,
+                               entry: Category.eatingOut,
                                amount: 100,
                                date: "23/09/2026",
-                               isRecurring: false,
-                               onEditAction: { entryId in },
+                               isRecurring: true,
+                               onEditAction: { viewData in
+            pendingSheet = .editEntry(viewData)
+            activeSheet = nil
+        },
                                onDeleteAction: { entryId in })
+    }
+    
+    func getAddExpenseViewData() -> AddEntryView.ViewData {
+        AddEntryView.ViewData(bottomSheetType: .addExpense,
+                              categories: Category.expenseCases)
+    }
+    
+    func getAddEarningViewData() -> AddEntryView.ViewData {
+        AddEntryView.ViewData(bottomSheetType: .addEarning,
+                              categories: Category.earningCases)
     }
 }
 

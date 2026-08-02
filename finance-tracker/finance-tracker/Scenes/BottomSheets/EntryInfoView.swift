@@ -14,7 +14,7 @@ struct EntryInfoView: View {
                     .foregroundStyle(Color.fontSubtitle)
             }
 
-            Text(getSign() + viewData.amount.formattedAmount())
+            Text(getSign() + viewData.amount.formattedAmount(currencySymbol: "€"))
                 .font(.system(size: 32))
                 .foregroundStyle(getExpenseColor())
 
@@ -31,7 +31,7 @@ struct EntryInfoView: View {
 
             HStack(spacing: 10) {
                 Button {
-                    viewData.onEditAction(viewData.entryId)
+                    viewData.onEditAction(getEditableViewData())
                 } label: {
                     Text("Edit")
                         .font(.system(size: 14))
@@ -56,6 +56,8 @@ struct EntryInfoView: View {
             }
         }
         .padding(22)
+        .presentationDetents([.medium])
+        .presentationDragIndicator(.visible)
     }
 }
 
@@ -90,18 +92,37 @@ private extension EntryInfoView {
             return Color.amountGreen
         }
     }
+    
+    func getEditableViewData() -> AddEntryView.ViewData {
+        AddEntryView.ViewData(bottomSheetType: getBottomSheetType(),
+                              entryId: viewData.entryId,
+                              name: viewData.name,
+                              category: viewData.entry,
+                              amount: viewData.amount.formattedAmount(),
+                              isRecurring: viewData.isRecurring,
+                              categories: viewData.entryType == .earning ? Category.earningCases : Category.expenseCases)
+    }
+    
+    func getBottomSheetType() -> EntryBottomSheetType {
+        switch viewData.entryType {
+        case .spending:
+            return .editExpense
+        case .earning:
+            return .editEarning
+        }
+    }
 }
 
 extension EntryInfoView {
     struct ViewData {
-        let entryId: String
+        let entryId: UUID
         let entryType: EntryType
         let name: String
-        let entry: Entry
+        let entry: Category
         let amount: Double
         let date: String
         let isRecurring: Bool
-        let onEditAction: (String) -> Void
-        let onDeleteAction: (String) -> Void
+        let onEditAction: (AddEntryView.ViewData) -> Void
+        let onDeleteAction: (UUID) -> Void
     }
 }
