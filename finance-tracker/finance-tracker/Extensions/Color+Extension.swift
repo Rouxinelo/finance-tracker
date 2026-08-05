@@ -9,6 +9,9 @@ extension Color {
     static var amountRed: Color { Color(hex: "#e24b4a") }
     static var amountGreen: Color { Color(hex: "#5dcaa5") }
     static var loaderGreen: Color { Color(hex: "4ade80") }
+    static var toastBackground: Color { Color(hex: "1C2340") }
+    static var toastStroke: Color { Color(hex: "2A3050") }
+    static var toastCloseButtonBackground: Color { Color(hex: "#242b48") }
     
     init(hex: String) {
         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
