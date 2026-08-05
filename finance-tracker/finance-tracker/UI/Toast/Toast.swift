@@ -65,17 +65,17 @@ struct Toast: View {
                     .frame(width: 30, height: 30)
                 
                 Image(systemName: viewData.style.imageName)
-                    .font(.system(size: 12, weight: .bold))
+                    .font(.system(size: 14, weight: .bold))
                     .foregroundColor(viewData.style.iconColor)
             }
             
             VStack(alignment: .leading, spacing: 1) {
                 Text(viewData.expenseTitle)
-                    .font(.system(size: 14, weight: .semibold, design: .rounded))
+                    .font(.system(size: 16, weight: .semibold, design: .rounded))
                     .foregroundStyle(Color.fontWhite)
                 
                 Text(viewData.expenseDescription)
-                    .font(.system(size: 12, weight: .regular, design: .rounded))
+                    .font(.system(size: 14, weight: .regular, design: .rounded))
                     .foregroundStyle(Color.fontSubtitle)
             }
             
@@ -97,16 +97,16 @@ struct Toast: View {
             
             
         }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 20)
+        .padding(.horizontal, 15)
+        .padding(.vertical, 15)
         .background(Color.toastBackground)
         .overlay {
-            RoundedRectangle(cornerRadius: 10)
+            RoundedRectangle(cornerRadius: 15)
                 .stroke(Color.toastStroke)
         }
-        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .clipShape(RoundedRectangle(cornerRadius: 15))
         .shadow(color: .black, radius: 12, y: 5)
-        .padding(.horizontal, 10)
+        .padding(.horizontal, 15)
     }
 }
 
@@ -119,7 +119,7 @@ extension Toast {
 }
 
 #Preview {
-    Toast(viewData: Toast.ViewData(style: .add,
+    Toast(viewData: Toast.ViewData(style: .edit,
                                    expenseTitle: "Example Title",
                                    expenseDescription: "Example Description"))
 }
