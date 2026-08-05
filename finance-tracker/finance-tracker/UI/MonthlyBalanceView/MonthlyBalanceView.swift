@@ -1,10 +1,5 @@
 import SwiftUI
 
-enum MonthlyBalanceViewStyle {
-    case withDivider
-    case withoutDivider
-}
-
 struct MonthlyBalanceView: View {
     @State var viewData: ViewData
 

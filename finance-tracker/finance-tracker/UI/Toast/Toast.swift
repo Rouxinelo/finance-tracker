@@ -1,112 +1,92 @@
 import SwiftUI
 
-enum ToastStyle {
-    case add
-    case delete
-    case edit
-    
-    var imageName: String {
-        switch self {
-        case .add:
-            "plus"
-        case .delete:
-            "trash"
-        case .edit:
-            "pencil"
-        }
-    }
-    
-    var actionTitle: String {
-        switch self {
-        case .add:
-            "Entry added"
-        case .delete:
-            "Entry deleted"
-        case .edit:
-            "Entry updated"
-        }
-    }
-    
-    var circleColor: Color {
-        switch self {
-        case .add:
-            Color(hex: "4ADE80").opacity(0.15)
-        case .delete:
-            Color(hex: "F87171").opacity(0.15)
-        case .edit:
-            Color(hex: "60A5FA").opacity(0.15)
-        }
-    }
-    
-    var iconColor: Color {
-        switch self {
-        case .add:
-            Color(hex: "4ADE80")
-        case .delete:
-            Color(hex: "F87171")
-        case .edit:
-            Color(hex: "60A5FA")
-        }
-    }
-}
-
 struct Toast: View {
     enum Constants {
         static let closeButtonImage: String = "xmark"
     }
     
+    @Binding var isVisible: Bool
+    @State var yOffset: CGFloat = -200
     @State var viewData: ViewData
     
     var body: some View {
-        HStack(spacing: 10) {
-            ZStack {
-                Circle()
-                    .fill(viewData.style.circleColor)
-                    .frame(width: 30, height: 30)
-                
-                Image(systemName: viewData.style.imageName)
-                    .font(.system(size: 14, weight: .bold))
-                    .foregroundColor(viewData.style.iconColor)
+        
+        VStack {
+            HStack(spacing: 10) {
+                toastIcon
+                toastText
+                Spacer(minLength: 0)
+                closeButton
             }
-            
-            VStack(alignment: .leading, spacing: 1) {
-                Text(viewData.expenseTitle)
-                    .font(.system(size: 16, weight: .semibold, design: .rounded))
-                    .foregroundStyle(Color.fontWhite)
-                
-                Text(viewData.expenseDescription)
-                    .font(.system(size: 14, weight: .regular, design: .rounded))
-                    .foregroundStyle(Color.fontSubtitle)
+            .padding(.horizontal, 15)
+            .padding(.vertical, 15)
+            .background(Color.toastBackground)
+            .overlay {
+                RoundedRectangle(cornerRadius: 15)
+                    .stroke(Color.toastStroke)
             }
-            
-            Spacer()
-            
-            Button(action: {
-                
-            }) {
-                ZStack {
-                    Circle()
-                        .fill(Color.toastCloseButtonBackground)
-                        .frame(width: 25, height: 25)
-                    
-                    Image(systemName: Constants.closeButtonImage)
-                        .font(.system(size: 10, weight: .bold))
-                        .foregroundColor(Color.fontWhite)
+            .clipShape(RoundedRectangle(cornerRadius: 15))
+            .shadow(color: .black, radius: 12, y: 5)
+            .padding(.horizontal, 15)
+            .padding(.vertical, 20)
+            .offset(y: yOffset)
+            .onAppear {
+                withAnimation {
+                    yOffset = 0
                 }
             }
-            
-            
+            Spacer()
         }
-        .padding(.horizontal, 15)
-        .padding(.vertical, 15)
-        .background(Color.toastBackground)
-        .overlay {
-            RoundedRectangle(cornerRadius: 15)
-                .stroke(Color.toastStroke)
+    }
+}
+
+private extension Toast {
+    var toastIcon: some View {
+        ZStack {
+            Circle()
+                .fill(viewData.style.circleColor)
+                .frame(width: 30, height: 30)
+            
+            Image(systemName: viewData.style.imageName)
+                .font(.system(size: 14, weight: .bold))
+                .foregroundColor(viewData.style.iconColor)
         }
-        .clipShape(RoundedRectangle(cornerRadius: 15))
-        .shadow(color: .black, radius: 12, y: 5)
-        .padding(.horizontal, 15)
+    }
+    
+    var toastText: some View {
+        VStack(alignment: .leading, spacing: 1) {
+            Text(viewData.expenseTitle)
+                .font(.system(size: 16, weight: .semibold, design: .rounded))
+                .foregroundStyle(Color.fontWhite)
+            
+            Text(viewData.expenseDescription)
+                .font(.system(size: 14, weight: .regular, design: .rounded))
+                .foregroundStyle(Color.fontSubtitle)
+        }
+    }
+    
+    var closeButton: some View {
+        Button(action: {
+            close()
+        }) {
+            ZStack {
+                Circle()
+                    .fill(Color.toastCloseButtonBackground)
+                    .frame(width: 25, height: 25)
+                
+                Image(systemName: Constants.closeButtonImage)
+                    .font(.system(size: 10, weight: .bold))
+                    .foregroundColor(Color.fontWhite)
+            }
+        }
+    }
+    
+    func close() {
+        withAnimation {
+            yOffset = -200
+        } completion: {
+            isVisible = false
+        }
     }
 }
 
@@ -116,10 +96,4 @@ extension Toast {
         let expenseTitle: String
         let expenseDescription: String
     }
-}
-
-#Preview {
-    Toast(viewData: Toast.ViewData(style: .edit,
-                                   expenseTitle: "Example Title",
-                                   expenseDescription: "Example Description"))
 }
