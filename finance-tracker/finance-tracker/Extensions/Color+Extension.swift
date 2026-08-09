@@ -1,0 +1,41 @@
+import SwiftUI
+
+extension Color {
+    // MARK: - Colors
+    static var backgroundColor: Color { Color(hex: "#1b263b") }
+    static var sheetBackgroundColor: Color { Color(hex: "#212d47") }
+    static var fontWhite: Color { Color(hex: "#f2f2f0") }
+    static var fontSubtitle: Color { Color(hex: "#9aa3b5") }
+    static var amountRed: Color { Color(hex: "#e24b4a") }
+    static var amountGreen: Color { Color(hex: "#5dcaa5") }
+    static var loaderGreen: Color { Color(hex: "4ade80") }
+    static var toastBackground: Color { Color(hex: "1C2340") }
+    static var toastStroke: Color { Color(hex: "2A3050") }
+    static var toastCloseButtonBackground: Color { Color(hex: "#242b48") }
+    
+    init(hex: String) {
+        let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var int: UInt64 = 0
+        Scanner(string: hex).scanHexInt64(&int)
+
+        let a, r, g, b: UInt64
+        switch hex.count {
+        case 3:
+            (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
+        case 6:
+            (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
+        case 8:
+            (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
+        default:
+            (a, r, g, b) = (255, 0, 0, 0)
+        }
+
+        self.init(
+            .sRGB,
+            red: Double(r) / 255,
+            green: Double(g) / 255,
+            blue:  Double(b) / 255,
+            opacity: Double(a) / 255
+        )
+    }
+}
