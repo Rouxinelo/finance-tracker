@@ -6,8 +6,14 @@ struct Toast: View {
     }
     
     @Binding var isVisible: Bool
-    @State var yOffset: CGFloat = -200
+    @State private var yOffset: CGFloat
     @State var viewData: ViewData
+    
+    init(isVisible: Binding<Bool>, viewData: ViewData, startOffset: CGFloat = -200) {
+        self._isVisible = isVisible
+        self.viewData = viewData
+        self._yOffset = State(initialValue: startOffset)
+    }
     
     var body: some View {
         
