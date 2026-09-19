@@ -10,18 +10,20 @@ on:
       - unlabeled
 
 jobs:
-  check_labels:
-    name: Check if Pull Request has required label
+  check_category_label:
+    name: Check if Pull Request has category label
     runs-on: ubuntu-latest
     steps:
-      - name: Check if PR has category label
-        uses: docker://agilepathway/pull-request-label-checker:latest
+      - uses: docker://agilepathway/pull-request-label-checker:latest
         with:
           one_of: bug_fix,new_feature,other, refactor
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           
-      - name: Check if PR has Ready to Merge label
-        uses: docker://agilepathway/pull-request-label-checker:latest
+  check_ready_label:
+    name: Check if Pull Request has ready label
+    runs-on: ubuntu-latest
+    steps:
+      - uses: docker://agilepathway/pull-request-label-checker:latest
         with:
           all_of: ready_to_merge
           repo_token: ${{ secrets.GITHUB_TOKEN }}
