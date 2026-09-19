@@ -14,7 +14,14 @@ jobs:
     name: Check if Pull Request has required label
     runs-on: ubuntu-latest
     steps:
-      - uses: docker://agilepathway/pull-request-label-checker:latest
+      - name: Check if PR has category label
+        uses: docker://agilepathway/pull-request-label-checker:latest
         with:
           one_of: bug_fix,new_feature,other, refactor
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Check if PR has Ready to Merge label
+        uses: docker://agilepathway/pull-request-label-checker:latest
+        with:
+          all_of: ready_to_merge
           repo_token: ${{ secrets.GITHUB_TOKEN }}
