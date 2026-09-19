@@ -1,0 +1,29 @@
+name: Label Checker
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - labeled
+      - unlabeled
+
+jobs:
+  check_category_label:
+    name: Check if Pull Request has category label
+    runs-on: ubuntu-latest
+    steps:
+      - uses: docker://agilepathway/pull-request-label-checker:latest
+        with:
+          one_of: bug_fix,new_feature,other, refactor
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          
+  check_ready_label:
+    name: Check if Pull Request has ready label
+    runs-on: ubuntu-latest
+    steps:
+      - uses: docker://agilepathway/pull-request-label-checker:latest
+        with:
+          all_of: ready_to_merge
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
