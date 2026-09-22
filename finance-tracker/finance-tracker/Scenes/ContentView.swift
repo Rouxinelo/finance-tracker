@@ -101,8 +101,9 @@ private extension ContentView {
                                name: "Francesinha",
                                entry: Category.eatingOut,
                                amount: 100,
-                               date: "23/09/2026",
-                               isRecurring: true,
+                               date: Date(),
+                               lastChargeDate: Date(),
+                               recurringType: .halfYearly,
                                onEditAction: { viewData in
             pendingSheet = .editEntry(viewData)
             activeSheet = nil
