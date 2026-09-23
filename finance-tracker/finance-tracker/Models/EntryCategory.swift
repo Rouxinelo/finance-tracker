@@ -1,6 +1,6 @@
 import Foundation
 
-enum Category: String, Hashable, Codable, CaseIterable {
+enum EntryCategory: String, Hashable, Codable, CaseIterable {
     case groceries
     case eatingOut
     case sports
@@ -41,11 +41,11 @@ enum Category: String, Hashable, Codable, CaseIterable {
         }
     }
 
-    static var expenseCases: [Category] {
+    static var expenseCases: [EntryCategory] {
         [.groceries, .eatingOut, .sports, .transport, .utilities, .rent, .health, .shopping, .leisure, .travel, .other]
     }
 
-    static var earningCases: [Category] {
+    static var earningCases: [EntryCategory] {
         [.salary, .sideJob, .sideHustle, .investments, .gift, .refund, .other]
     }
 }
