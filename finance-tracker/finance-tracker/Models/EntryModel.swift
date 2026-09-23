@@ -15,7 +15,7 @@ final class EntryModel {
     init(name: String,
          amount: Double,
          entryType: EntryType,
-         category: Category,
+         category: EntryCategory,
          recurringType: RecurringType,
          date: Date,
          recurrenceStopDate: Date?) {

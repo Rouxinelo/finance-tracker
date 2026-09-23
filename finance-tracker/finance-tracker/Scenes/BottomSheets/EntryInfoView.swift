@@ -169,7 +169,7 @@ private extension EntryInfoView {
                               category: viewData.entry,
                               amount: viewData.amount.formattedAmount(),
                               recurringType: viewData.recurringType,
-                              categories: viewData.entryType == .earning ? Category.earningCases : Category.expenseCases)
+                              categories: viewData.entryType == .earning ? EntryCategory.earningCases : EntryCategory.expenseCases)
     }
     
     func getBottomSheetType() -> EntryBottomSheetType {
@@ -187,7 +187,7 @@ extension EntryInfoView {
         let entryId: UUID
         let entryType: EntryType
         let name: String
-        let entry: Category
+        let entry: EntryCategory
         let amount: Double
         let date: Date
         var lastChargeDate: Date

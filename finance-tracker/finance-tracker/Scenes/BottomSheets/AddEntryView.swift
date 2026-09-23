@@ -119,13 +119,13 @@ extension AddEntryView {
         var bottomSheetType: EntryBottomSheetType
         var entryId: UUID
         var name: String
-        var category: Category?
+        var category: EntryCategory?
         var amount: String
         var recurringType: RecurringType
-        var categories: [Category]
+        var categories: [EntryCategory]
         
         init(bottomSheetType: EntryBottomSheetType,
-             categories: [Category]) {
+             categories: [EntryCategory]) {
             self.bottomSheetType = bottomSheetType
             self.entryId = UUID()
             self.name = ""
@@ -137,10 +137,10 @@ extension AddEntryView {
         init(bottomSheetType: EntryBottomSheetType,
              entryId: UUID,
              name: String,
-             category: Category? = nil,
+             category: EntryCategory? = nil,
              amount: String,
              recurringType: RecurringType,
-             categories: [Category]) {
+             categories: [EntryCategory]) {
             self.bottomSheetType = bottomSheetType
             self.entryId = entryId
             self.name = name
