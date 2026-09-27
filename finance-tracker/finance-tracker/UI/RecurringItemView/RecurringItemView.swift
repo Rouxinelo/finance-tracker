@@ -27,7 +27,6 @@ struct RecurringItemView: View {
         .padding()
         .background(Color.white.opacity(0.05))
         .clipShape(RoundedRectangle(cornerRadius: 10))
-        .padding(.horizontal)
     }
 }
 
@@ -71,7 +70,8 @@ private extension RecurringItemView {
 }
 
 extension RecurringItemView {
-    struct ViewData {
+    struct ViewData: Identifiable {
+        var id = UUID()
         var entryName: String
         var entryType: EntryType
         var entryCategory: EntryCategory
@@ -79,16 +79,4 @@ extension RecurringItemView {
         var amount: Double
         var recurrenceStopDate: Date?
     }
-}
-
-#Preview {
-    ZStack {
-        Color.backgroundColor
-        RecurringItemView(viewData: RecurringItemView.ViewData(entryName: "Antonio's hot wheels",
-                                                               entryType: .earning,
-                                                               entryCategory: .gift,
-                                                               recurringType: .halfMonthly,
-                                                               amount: 5))
-    }
-
 }
