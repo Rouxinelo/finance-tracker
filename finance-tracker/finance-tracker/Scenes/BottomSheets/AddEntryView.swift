@@ -70,18 +70,11 @@ struct AddEntryView: View {
             .clipShape(RoundedRectangle(cornerRadius: 10))
             .foregroundStyle(Color.fontWhite)
             
-            HStack {
-                Text("Recurring monthly")
-                    .font(.system(size: 14))
-                    .foregroundStyle(Color.fontWhite)
-                Spacer()
-                Toggle("", isOn: $viewData.isRecurring)
-                    .labelsHidden()
-                    .tint(.green)
-            }
-            .padding(12)
-            .background(Color.white.opacity(0.06))
-            .clipShape(RoundedRectangle(cornerRadius: 10))
+            FieldLabel("Frequency")
+
+            RecurringTypeSelectorView(viewData: RecurringTypeSelectorView.ViewData(types: RecurringType.allCases,
+                                                                                   selectedType: viewData.recurringType),
+                                      onRecurringTypeChange: { type in viewData.recurringType = type })
             
             Button {
                 onSaveAction(viewData)
@@ -126,34 +119,34 @@ extension AddEntryView {
         var bottomSheetType: EntryBottomSheetType
         var entryId: UUID
         var name: String
-        var category: Category?
+        var category: EntryCategory?
         var amount: String
-        var isRecurring: Bool
-        var categories: [Category]
+        var recurringType: RecurringType
+        var categories: [EntryCategory]
         
         init(bottomSheetType: EntryBottomSheetType,
-             categories: [Category]) {
+             categories: [EntryCategory]) {
             self.bottomSheetType = bottomSheetType
             self.entryId = UUID()
             self.name = ""
             self.amount = ""
-            self.isRecurring = false
+            self.recurringType = .once
             self.categories = categories
         }
         
         init(bottomSheetType: EntryBottomSheetType,
              entryId: UUID,
              name: String,
-             category: Category? = nil,
+             category: EntryCategory? = nil,
              amount: String,
-             isRecurring: Bool,
-             categories: [Category]) {
+             recurringType: RecurringType,
+             categories: [EntryCategory]) {
             self.bottomSheetType = bottomSheetType
             self.entryId = entryId
             self.name = name
             self.category = category
             self.amount = amount
-            self.isRecurring = isRecurring
+            self.recurringType = recurringType
             self.categories = categories
         }
     }

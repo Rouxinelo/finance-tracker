@@ -99,10 +99,11 @@ private extension ContentView {
         EntryInfoView.ViewData(entryId: UUID(),
                                entryType: .spending,
                                name: "Francesinha",
-                               entry: Category.eatingOut,
+                               entry: EntryCategory.eatingOut,
                                amount: 100,
-                               date: "23/09/2026",
-                               isRecurring: true,
+                               date: Date(),
+                               lastChargeDate: Date(),
+                               recurringType: .halfYearly,
                                onEditAction: { viewData in
             pendingSheet = .editEntry(viewData)
             activeSheet = nil
@@ -112,12 +113,12 @@ private extension ContentView {
     
     func getAddExpenseViewData() -> AddEntryView.ViewData {
         AddEntryView.ViewData(bottomSheetType: .addExpense,
-                              categories: Category.expenseCases)
+                              categories: EntryCategory.expenseCases)
     }
     
     func getAddEarningViewData() -> AddEntryView.ViewData {
         AddEntryView.ViewData(bottomSheetType: .addEarning,
-                              categories: Category.earningCases)
+                              categories: EntryCategory.earningCases)
     }
 }
 
