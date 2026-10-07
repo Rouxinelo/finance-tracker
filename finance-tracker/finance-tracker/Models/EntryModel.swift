@@ -3,7 +3,7 @@ import SwiftData
 
 @Model
 final class EntryModel {
-    var entryId: UUID
+    @Attribute(.unique) var entryId: UUID
     var name: String
     var amount: Double
     var entryType: String
