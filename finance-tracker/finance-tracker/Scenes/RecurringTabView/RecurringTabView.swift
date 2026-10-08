@@ -1,8 +1,17 @@
 import SwiftUI
+import SwiftData
 
 struct RecurringTabView: View {
-    @State var activeEntries: [RecurringItemView.ViewData]
-    @State var stoppedEntries: [RecurringItemView.ViewData]
+    @Environment(\.modelContext) private var modelContext
+    @Query(sort: \EntryModel.date, order: .reverse) private var entries: [EntryModel]
+
+    private var activeEntries: [EntryModel] {
+        entries.filter { $0.isRecurring && !$0.isRecurringStopped }
+    }
+    
+    private var stoppedEntries: [EntryModel] {
+        entries.filter { $0.isRecurring && $0.isRecurringStopped }
+    }
     
     var body: some View {
         ZStack() {
@@ -53,7 +62,7 @@ private extension RecurringTabView {
             .foregroundStyle(Color.fontSubtitle)
         
         ForEach(activeEntries) { entry in
-            RecurringItemView(viewData: entry)
+            RecurringItemView(viewData: RecurringItemViewFactory.buildViewData(from: entry))
         }
     }
     
@@ -64,7 +73,7 @@ private extension RecurringTabView {
             .foregroundStyle(Color.fontSubtitle)
         
         ForEach(stoppedEntries) { entry in
-            RecurringItemView(viewData: entry)
+            RecurringItemView(viewData: RecurringItemViewFactory.buildViewData(from: entry))
         }
     }
     
@@ -74,25 +83,5 @@ private extension RecurringTabView {
 }
 
 #Preview {
-    RecurringTabView(activeEntries: [
-        RecurringItemView.ViewData(entryName: "Example earning active",
-                                   entryType: .earning,
-                                   entryCategory: .refund,
-                                   recurringType: .weekly,
-                                   amount: 20),
-        
-        RecurringItemView.ViewData(entryName: "Example spending active",
-                                   entryType: .spending,
-                                   entryCategory: .eatingOut,
-                                   recurringType: .weekly,
-                                   amount: 20)
-    ],
-                     stoppedEntries: [
-                        RecurringItemView.ViewData(entryName: "Example stopped",
-                                                   entryType: .earning,
-                                                   entryCategory: .eatingOut,
-                                                   recurringType: .weekly,
-                                                   amount: 20,
-                                                   recurrenceStopDate: Date())
-                     ])
+    RecurringTabView()
 }

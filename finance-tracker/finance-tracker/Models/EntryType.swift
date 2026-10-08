@@ -1,4 +1,4 @@
-enum EntryType: String {
+enum EntryType: String, Codable {
     case spending
     case earning
 }

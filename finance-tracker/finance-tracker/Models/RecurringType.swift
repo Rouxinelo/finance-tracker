@@ -1,4 +1,4 @@
-enum RecurringType: String, CaseIterable {
+enum RecurringType: String, CaseIterable, Codable {
     case once
     case daily
     case weekly

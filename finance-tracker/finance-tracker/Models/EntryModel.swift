@@ -6,9 +6,9 @@ final class EntryModel {
     @Attribute(.unique) var entryId: UUID
     var name: String
     var amount: Double
-    var entryType: String
-    var category: String
-    var recurringType: String
+    var entryType: EntryType
+    var category: EntryCategory
+    var recurringType: RecurringType
     var date: Date
     var recurrenceStopDate: Date?
     
@@ -22,10 +22,20 @@ final class EntryModel {
         self.entryId = UUID()
         self.name = name
         self.amount = amount
-        self.entryType = entryType.rawValue
-        self.category = category.rawValue
-        self.recurringType = recurringType.rawValue
+        self.entryType = entryType
+        self.category = category
+        self.recurringType = recurringType
         self.date = date
         self.recurrenceStopDate = recurrenceStopDate
+    }
+}
+
+extension EntryModel {
+    var isRecurring: Bool {
+        recurringType != .once
+    }
+    
+    var isRecurringStopped: Bool {
+        isRecurring && recurrenceStopDate != nil
     }
 }

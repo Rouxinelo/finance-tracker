@@ -1,14 +1,9 @@
-//
-//  ContentView.swift
-//  finance-tracker
-//
-//  Created by João Rouxinol on 26/07/2026.
-//
-
 import SwiftUI
 import SwiftData
 
 struct ContentView: View {
+    @Environment(\.modelContext) private var modelContext
+    
     @State private var activeSheet: ActiveSheet?
     @State private var pendingSheet: ActiveSheet?
     
@@ -120,9 +115,4 @@ private extension ContentView {
         AddEntryView.ViewData(bottomSheetType: .addEarning,
                               categories: EntryCategory.earningCases)
     }
-}
-
-#Preview {
-    ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
 }

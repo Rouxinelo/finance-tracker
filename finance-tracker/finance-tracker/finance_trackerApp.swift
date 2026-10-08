@@ -1,15 +1,8 @@
-//
-//  finance_trackerApp.swift
-//  finance-tracker
-//
-//  Created by João Rouxinol on 26/07/2026.
-//
-
 import SwiftUI
 import SwiftData
 
 @main
-struct finance_trackerApp: App {
+struct finance_trackerApp: App {    
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             EntryModel.self,
